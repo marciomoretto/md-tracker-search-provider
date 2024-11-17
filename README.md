@@ -1,8 +1,8 @@
-# Simple Search Provider
+# MD Tracker Search Provider
 
-O Simple Search Provider é um provedor de busca para o GNOME Shell que utiliza o Tracker3 para oferecer uma busca eficiente e personalizada de arquivos. Ele suporta busca de arquivos relacionados até dois graus de separação, integrando-se perfeitamente ao ambiente do GNOME.
+O MD Tracker Search Provider é um provedor de busca para o GNOME Shell que utiliza o Tracker3 para oferecer uma busca eficiente e personalizada de arquivos. Ele suporta busca de arquivos relacionados até dois graus de separação, integrando-se perfeitamente ao ambiente do GNOME.
 
-Este programa funciona como complemento para o [MD Tracker](https://github.com/marciomoretto/md-tracker), um utilitário que monitora pastas com arquivos Markdown e atualiza o Tracker3 para incluir links RDF entre arquivos interconectados. Juntos, o MD Tracker e o Simple Search Provider proporcionam uma experiência de busca avançada e contextualizada no GNOME.
+Este programa funciona como complemento para o [MD Tracker](https://github.com/marciomoretto/md-tracker), um utilitário que monitora pastas com arquivos Markdown e atualiza o Tracker3 para incluir links RDF entre arquivos interconectados. Juntos, o MD Tracker e o MD Tracker Search Provider proporcionam uma experiência de busca avançada e contextualizada no GNOME.
 
 ## Recursos
 * **Busca Avançada:** Explora relações semânticas entre arquivos no sistema de metadados RDF do Tracker3, permitindo localizar não apenas arquivos diretamente relacionados ao termo pesquisado, mas também aqueles conectados indiretamente por até dois níveis de separação.
