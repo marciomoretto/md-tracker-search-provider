@@ -3,9 +3,9 @@
 O Simple Search Provider é um provedor de busca para o GNOME Shell que utiliza o Tracker3 para oferecer uma busca eficiente e personalizada de arquivos. Ele suporta busca de arquivos relacionados até dois graus de separação, integrando-se perfeitamente ao ambiente do GNOME.
 
 ## Recursos
-**Busca Avançada:** Explora relações semânticas entre arquivos no sistema de metadados RDF do Tracker3, permitindo localizar não apenas arquivos diretamente relacionados ao termo pesquisado, mas também aqueles conectados indiretamente por até dois níveis de separação.
-**Integração com GNOME:** Suporte ao protocolo D-Bus para se comunicar diretamente com o GNOME Shell.
-**Rápido e Eficiente:** Usa Tracker3 para consultas rápidas com suporte a RDF.
+* **Busca Avançada:** Explora relações semânticas entre arquivos no sistema de metadados RDF do Tracker3, permitindo localizar não apenas arquivos diretamente relacionados ao termo pesquisado, mas também aqueles conectados indiretamente por até dois níveis de separação.
+* **Integração com GNOME:** Suporte ao protocolo D-Bus para se comunicar diretamente com o GNOME Shell.
+* **Rápido e Eficiente:** Usa Tracker3 para consultas rápidas com suporte a RDF.
 
 ## Requisitos
 * **Sistema Operacional:** Linux com GNOME Shell.
