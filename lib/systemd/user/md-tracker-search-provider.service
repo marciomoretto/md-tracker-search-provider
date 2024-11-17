@@ -1,0 +1,11 @@
+[Unit]
+Description=MD Tracker Search Provider
+After=default.target
+
+[Service]
+ExecStart=/usr/local/bin/md_tracker_search_provider.py
+Restart=always
+User=%u
+
+[Install]
+WantedBy=default.target

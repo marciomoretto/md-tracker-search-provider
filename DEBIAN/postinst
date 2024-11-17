@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# Habilitar o serviço no systemd para o usuário
+systemctl --user daemon-reload
+systemctl --user enable md-tracker-search-provider.service
+systemctl --user start md-tracker-search-provider.service

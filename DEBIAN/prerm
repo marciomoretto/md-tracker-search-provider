@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+# Parar e desabilitar o serviço no systemd para o usuário
+systemctl --user stop md-tracker-search-provider.service || true
+systemctl --user disable md-tracker-search-provider.service || true
+systemctl --user daemon-reload

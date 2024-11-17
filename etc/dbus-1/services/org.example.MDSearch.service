@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=org.example.MDTrackerSearch
+Exec=/usr/local/bin/md_tracker_search_provider.py
+User=root
