@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/marciomr/MeusProgramas/md-tracker-search-provider/usr/local/bin/venv"
+set -gx VIRTUAL_ENV "/home/marciomr/MeusProgramas/md-tracker-search-provider/opt/md_tracker_search_provider/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
