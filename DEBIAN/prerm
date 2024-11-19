@@ -1,16 +1,26 @@
 #!/bin/bash
 set -e
 
-# Verificar se o XDG_RUNTIME_DIR está configurado corretamente
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+# Obter o nome do usuário do diretório HOME padrão
+USER=$(logname)
+if [ -z "$USER" ]; then
+    echo "Não foi possível determinar o usuário atual."
+    exit 1
 fi
 
-# Parar e desabilitar o serviço do systemd para o usuário
-systemctl --user stop md-tracker-search-provider.service || true
-systemctl --user disable md-tracker-search-provider.service || true
-systemctl --user daemon-reload
+# Configurar o ambiente do usuário para o systemctl --user
+XDG_RUNTIME_DIR="/run/user/$(id -u "$USER")"
+export XDG_RUNTIME_DIR
 
-# Remover arquivos relacionados ao search provider
-rm -f ~/.local/share/gnome-shell/search-providers/md-tracker-provider.ini
-rm -f ~/.local/share/applications/md-tracker-search-provider.desktop
+# Parar e desabilitar o serviço no contexto do usuário
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user stop md-tracker-search-provider.service || true"
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user disable md-tracker-search-provider.service || true"
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
+
+# Remover o arquivo .ini do search provider
+su - "$USER" -c "rm -f ~/.local/share/gnome-shell/search-providers/md-tracker-search-provider.ini"
+
+# Remover o arquivo .desktop
+su - "$USER" -c "rm -f ~/.local/share/applications/md-tracker-search-provider.desktop"
+
+echo "MD Tracker Search Provider foi removido com sucesso."
