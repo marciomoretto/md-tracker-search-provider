@@ -22,11 +22,3 @@ export XDG_RUNTIME_DIR
 su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
 su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user enable md-tracker-search-provider.service"
 su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user start md-tracker-search-provider.service"
-
-# Copiar o arquivo .ini para o search provider
-su - "$USER" -c "mkdir -p ~/.local/share/gnome-shell/search-providers/"
-su - "$USER" -c "cp /share/md-tracker-search-provider/md-tracker-search-provider.ini ~/.local/share/gnome-shell/search-providers/"
-
-# Copiar o arquivo .desktop
-su - "$USER" -c "mkdir -p ~/.local/share/applications/"
-su - "$USER" -c "cp /share/applications/md-tracker-search-provider.desktop ~/.local/share/applications/"

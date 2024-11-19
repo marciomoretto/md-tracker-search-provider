@@ -1,4 +1,5 @@
 [Desktop Entry]
 Name=MD Tracker Search Provider
+Exec=/opt/md_tracker_search_provider/md_tracker_search_provider.py
 Type=Application
 Icon=/usr/share/icons/hicolor/256x256/apps/md-tracker.png

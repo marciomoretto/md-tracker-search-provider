@@ -17,10 +17,4 @@ su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user stop md-track
 su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user disable md-tracker-search-provider.service || true"
 su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
 
-# Remover o arquivo .ini do search provider
-su - "$USER" -c "rm -f ~/.local/share/gnome-shell/search-providers/md-tracker-search-provider.ini"
-
-# Remover o arquivo .desktop
-su - "$USER" -c "rm -f ~/.local/share/applications/md-tracker-search-provider.desktop"
-
 echo "MD Tracker Search Provider foi removido com sucesso."

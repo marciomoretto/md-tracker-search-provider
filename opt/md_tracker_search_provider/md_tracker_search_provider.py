@@ -32,7 +32,7 @@ logging.info("MD Tracker Search Provider iniciado. Logs salvos em: %s", LOG_FILE
 DBusGMainLoop(set_as_default=True)
 
 # Caminho do arquivo de configuração
-CONFIG_FILE = os.path.expanduser("~/.config/md-tracker/config")
+CONFIG_FILE = os.path.expanduser("~/.config/md-watcher/config")
 
 def load_base_dir(config_file):
     """
@@ -60,7 +60,8 @@ logging.info("BASE_DIR configurado como: %s", BASE_DIR)
 class MDTrackerSearchProvider(dbus.service.Object):
     def __init__(self):
         bus_name = dbus.service.BusName("org.example.MDTrackerSearch", bus=dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, "/org/example/MDTrackerSearch/SearchProvider2")
+        dbus.service.Object.__init__(self, bus_name, "/org/example/MDTrackerSearch")
+        logging.info("BusName registrado: %s", bus_name.get_name())
 
     @dbus.service.method("org.gnome.Shell.SearchProvider2", in_signature="as", out_signature="as")
     def GetInitialResultSet(self, terms):
@@ -96,9 +97,13 @@ class MDTrackerSearchProvider(dbus.service.Object):
         metas = []
 
         for identifier in identifiers:
-            # Extrair ?file e ?file1 do par
-            file, file1 = identifier.split("|", 1)
-
+             # Tenta dividir o identificador no formato esperado
+            try:
+                file, file1 = identifier.split("|", 1)
+            except ValueError:
+                # Caso o identificador não esteja no formato esperado
+                file, file1 = identifier, identifier
+               
             # Determinar o nome do arquivo
             name = os.path.basename(file1)
 
