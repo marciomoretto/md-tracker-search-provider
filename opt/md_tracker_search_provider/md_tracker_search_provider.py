@@ -1,4 +1,4 @@
-#!venv/bin/python3
+#!/opt/md_tracker_search_provider/venv/bin/python3
 
 import os
 import dbus
@@ -12,7 +12,10 @@ import mimetypes
 import logging
 
 # Caminho do arquivo de log
-LOG_FILE = os.path.expanduser("/var/log/md-tracker-search_provider.log")
+LOG_FILE = os.path.expanduser("~/.local/share/md-tracker-search-provider/logs/md-tracker-search_provider.log")
+
+# Criar os diretórios, se necessário
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
 
 # Configuração básica de logging
 logging.basicConfig(
@@ -51,6 +54,7 @@ def load_base_dir(config_file):
 
 # Carregar o BASE_DIR
 BASE_DIR = load_base_dir(CONFIG_FILE)
+
 logging.info("BASE_DIR configurado como: %s", BASE_DIR)
 
 class MDTrackerSearchProvider(dbus.service.Object):
