@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!venv/bin/python3
 
 import os
 import dbus
@@ -12,7 +12,7 @@ import mimetypes
 import logging
 
 # Caminho do arquivo de log
-LOG_FILE = os.path.expanduser("~/MeusProgramas/python/simple_search_provider.log")
+LOG_FILE = os.path.expanduser("/var/log/md-tracker-search_provider.log")
 
 # Configuração básica de logging
 logging.basicConfig(
@@ -24,23 +24,45 @@ logging.basicConfig(
     ]
 )
 
-logging.info("Search Provider iniciado. Logs salvos em: %s", LOG_FILE)
+logging.info("MD Tracker Search Provider iniciado. Logs salvos em: %s", LOG_FILE)
 
 DBusGMainLoop(set_as_default=True)
 
-# Diretório base onde os arquivos .md estão armazenados
-BASE_DIR = os.path.expanduser("~/Documentos/Vault/pages/")
+# Caminho do arquivo de configuração
+CONFIG_FILE = os.path.expanduser("~/.config/md_tracker/config")
 
-class SimpleSearchProvider(dbus.service.Object):
+def load_base_dir(config_file):
+    """
+    Carrega o BASE_DIR do arquivo de configuração.
+    """
+    try:
+        with open(config_file, "r") as f:
+            for line in f:
+                # Busca pela linha que define BASE_DIR
+                if line.startswith("BASE_DIR="):
+                    return line.split("=", 1)[1].strip()  # Remove espaços e quebras de linha
+    except FileNotFoundError:
+        logging.error("Arquivo de configuração não encontrado: %s", config_file)
+    except Exception as e:
+        logging.error("Erro ao ler o arquivo de configuração: %s", e)
+
+    # Caminho padrão se não for encontrado no arquivo
+    return os.path.expanduser("~/Documentos/Vault/pages/")
+
+# Carregar o BASE_DIR
+BASE_DIR = load_base_dir(CONFIG_FILE)
+logging.info("BASE_DIR configurado como: %s", BASE_DIR)
+
+class MDTrackerSearchProvider(dbus.service.Object):
     def __init__(self):
-        bus_name = dbus.service.BusName("org.example.SimpleSearch", bus=dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, "/org/example/SimpleSearch/SearchProvider2")
+        bus_name = dbus.service.BusName("org.example.MDTrackerSearch", bus=dbus.SessionBus())
+        dbus.service.Object.__init__(self, bus_name, "/org/example/MDTrackerSearch/SearchProvider2")
 
     @dbus.service.method("org.gnome.Shell.SearchProvider2", in_signature="as", out_signature="as")
     def GetInitialResultSet(self, terms):
-        # """
-        # Captura os termos digitados na barra de busca e retorna os resultados iniciais.
-        # """
+        """
+        Captura os termos digitados na barra de busca e retorna os resultados iniciais.
+        """
         if not terms:
             return []
 
@@ -54,11 +76,11 @@ class SimpleSearchProvider(dbus.service.Object):
 
         keyword = ' '.join(str(item) for item in new_terms)
 
-        # # Ignorar entradas curtas
+        # Ignorar entradas curtas
         if len(keyword) < 4:
-             return []  # Retorna vazio se o termo for menor que 3 caracteres
+             return []  # Retorna vazio se o termo for menor que 4 caracteres
 
-        # # # Buscar arquivos relacionados ao arquivo alvo
+        # Buscar arquivos relacionados ao arquivo alvo
         return self.search_files_two_hops(keyword)
 
     @dbus.service.method("org.gnome.Shell.SearchProvider2", in_signature="as", out_signature="aa{sv}")
@@ -172,6 +194,6 @@ class SimpleSearchProvider(dbus.service.Object):
           
 if __name__ == "__main__":
     loop = GLib.MainLoop()
-    provider = SimpleSearchProvider()
-    print("Simple Search Provider iniciado.")
+    provider = MDTrackerSearchProvider()
+    print("MD Tracker Search Provider iniciado.")
     loop.run()

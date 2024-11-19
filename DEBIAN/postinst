@@ -1,7 +1,15 @@
 #!/bin/bash
 set -e
 
-# Habilitar o serviço no systemd para o usuário
-systemctl --user daemon-reload
-systemctl --user enable md-tracker-search-provider.service
-systemctl --user start md-tracker-search-provider.service
+# Obter o usuário atual que está instalando o pacote
+USER=$(logname)
+
+# Configurar o XDG_RUNTIME_DIR para o usuário
+XDG_RUNTIME_DIR="/run/user/$(id -u $USER)"
+export XDG_RUNTIME_DIR
+
+# Executar os comandos no contexto do usuário
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user enable md-tracker-search-provider.service"
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user start md-tracker-search-provider.service"
+
