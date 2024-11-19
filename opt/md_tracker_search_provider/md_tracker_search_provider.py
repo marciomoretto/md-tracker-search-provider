@@ -32,7 +32,7 @@ logging.info("MD Tracker Search Provider iniciado. Logs salvos em: %s", LOG_FILE
 DBusGMainLoop(set_as_default=True)
 
 # Caminho do arquivo de configuração
-CONFIG_FILE = os.path.expanduser("~/.config/md_tracker/config")
+CONFIG_FILE = os.path.expanduser("~/.config/md-tracker/config")
 
 def load_base_dir(config_file):
     """
