@@ -1,20 +1,32 @@
 #!/bin/bash
 set -e
 
-# Verificar se o XDG_RUNTIME_DIR está configurado
-if [ -z "$XDG_RUNTIME_DIR" ]; then
-    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+# Verificar se o usuário que executa o script é root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "O script postinst deve ser executado como root."
+    exit 1
 fi
 
-# Habilitar o serviço no systemd para o usuário
-systemctl --user daemon-reload
-systemctl --user enable md-tracker-search-provider.service
-systemctl --user start md-tracker-search-provider.service
+# Obter o nome do usuário do diretório HOME padrão
+USER=$(logname)
+if [ -z "$USER" ]; then
+    echo "Não foi possível determinar o usuário atual."
+    exit 1
+fi
+
+# Configurar o ambiente do usuário para o systemctl --user
+XDG_RUNTIME_DIR="/run/user/$(id -u "$USER")"
+export XDG_RUNTIME_DIR
+
+# Executar os comandos no contexto do usuário
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user enable md-tracker-search-provider.service"
+su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user start md-tracker-search-provider.service"
 
 # Copiar o arquivo .ini para o search provider
-mkdir -p ~/.local/share/gnome-shell/search-providers/
-cp /usr/share/md-tracker-search-provider/md-tracker-provider.ini ~/.local/share/gnome-shell/search-providers/
+su - "$USER" -c "mkdir -p ~/.local/share/gnome-shell/search-providers/"
+su - "$USER" -c "cp /usr/share/md-tracker-search-provider/md-tracker-provider.ini ~/.local/share/gnome-shell/search-providers/"
 
 # Copiar o arquivo .desktop
-mkdir -p ~/.local/share/applications/
-cp /usr/share/md-tracker-search-provider/md-tracker-search-provider.desktop ~/.local/share/applications/
+su - "$USER" -c "mkdir -p ~/.local/share/applications/"
+su - "$USER" -c "cp /usr/share/md-tracker-search-provider/md-tracker-search-provider.desktop ~/.local/share/applications/"

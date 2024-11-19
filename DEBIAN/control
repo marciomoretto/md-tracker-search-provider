@@ -3,7 +3,7 @@ Version: 1.0
 Section: utils
 Priority: optional
 Architecture: all
-Depends: python3, python3-gi, tracker, dbus, pkg-config, libdbus-1-dev, libdbus-glib-1-dev, build-essential, python3-dev, libcairo2, libcairo2-dev, meson, cmake, libgirepository1.0-dev, gobject-introspection
+Depends: python3, python3-gi, tracker, dbus, pkg-config, libdbus-1-dev, libdbus-glib-1-dev, build-essential, python3-dev, libcairo2, libcairo2-dev, meson, cmake, libgirepository1.0-dev, gobject-introspection, at
 Maintainer: Márcio Moretto Ribeiro <marcio.mr@gmail.com>
 Description: Simple Search Provider for GNOME
  This package provides a GNOME Search Provider using Tracker3 for enhanced file search capabilities.
