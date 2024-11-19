@@ -1,15 +1,20 @@
 #!/bin/bash
 set -e
 
-# Obter o usuário atual que está instalando o pacote
-USER=$(logname)
+# Verificar se o XDG_RUNTIME_DIR está configurado
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
 
-# Configurar o XDG_RUNTIME_DIR para o usuário
-XDG_RUNTIME_DIR="/run/user/$(id -u $USER)"
-export XDG_RUNTIME_DIR
+# Habilitar o serviço no systemd para o usuário
+systemctl --user daemon-reload
+systemctl --user enable md-tracker-search-provider.service
+systemctl --user start md-tracker-search-provider.service
 
-# Executar os comandos no contexto do usuário
-su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
-su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user enable md-tracker-search-provider.service"
-su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user start md-tracker-search-provider.service"
+# Copiar o arquivo .ini para o search provider
+mkdir -p ~/.local/share/gnome-shell/search-providers/
+cp /usr/share/md-tracker-search-provider/md-tracker-provider.ini ~/.local/share/gnome-shell/search-providers/
 
+# Copiar o arquivo .desktop
+mkdir -p ~/.local/share/applications/
+cp /usr/share/md-tracker-search-provider/md-tracker-search-provider.desktop ~/.local/share/applications/

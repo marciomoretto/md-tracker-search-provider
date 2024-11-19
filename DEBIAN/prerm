@@ -1,14 +1,16 @@
 #!/bin/bash
 set -e
 
-# Obter o usuário atual que está removendo o pacote
-USER=$(logname)
+# Verificar se o XDG_RUNTIME_DIR está configurado corretamente
+if [ -z "$XDG_RUNTIME_DIR" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
 
-# Configurar o XDG_RUNTIME_DIR para o usuário
-XDG_RUNTIME_DIR="/run/user/$(id -u $USER)"
-export XDG_RUNTIME_DIR
+# Parar e desabilitar o serviço do systemd para o usuário
+systemctl --user stop md-tracker-search-provider.service || true
+systemctl --user disable md-tracker-search-provider.service || true
+systemctl --user daemon-reload
 
-# Executar os comandos no contexto do usuário
-su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user stop md-tracker-search-provider.service || true"
-su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user disable md-tracker-search-provider.service || true"
-su - "$USER" -c "XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR systemctl --user daemon-reload"
+# Remover arquivos relacionados ao search provider
+rm -f ~/.local/share/gnome-shell/search-providers/md-tracker-provider.ini
+rm -f ~/.local/share/applications/md-tracker-search-provider.desktop
