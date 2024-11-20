@@ -51,7 +51,7 @@ Depois de instalado e configurado:
 
 ### Demonstração
 
-![Demonstração do Programa](assets/Peek 20-11-2024 15-16.gif)
+![Demonstração do Programa](assets/Peek\ 20-11-2024\ 15-16.gif)
 
 ## Contribuindo
 Contribuições são bem-vindas! Veja como você pode ajudar:
