@@ -42,7 +42,7 @@ def load_base_dir(config_file):
         with open(config_file, "r") as f:
             for line in f:
                 # Busca pela linha que define BASE_DIR
-                if line.startswith("BASE_DIR="):
+                if line.startswith("PAGES_DIR="):
                     return line.split("=", 1)[1].strip()  # Remove espaços e quebras de linha
     except FileNotFoundError:
         logging.error("Arquivo de configuração não encontrado: %s", config_file)
