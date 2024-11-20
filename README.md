@@ -49,6 +49,10 @@ Depois de instalado e configurado:
 2. Digite um termo relacionado a um arquivo `.md` ou a referência que você deseja buscar.
 3. O MD Tracker Search Provider exibirá os resultados relacionados no menu de busca.
 
+### Demonstração
+
+![Demonstração do Programa](assets/md-tracker-search-provider.gif)
+
 ## Contribuindo
 Contribuições são bem-vindas! Veja como você pode ajudar:
 
